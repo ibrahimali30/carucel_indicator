@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BubblePageIndicator">
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr name="bpi_fillColor" format="color" />
+        <!-- Color of the filled circles that represents pages. -->
+        <attr name="bpi_pageColor" format="color" />
+        <!-- Radius of the circles. -->
+        <attr name="bpi_radius" format="dimension" />
+        <!-- Margin between the circles. -->
+        <attr name="bpi_marginBetweenCircles" format="dimension" />
+        <!-- On surface circles count -->
+        <attr name="bpi_onSurfaceCount" format="integer" />
+        <!-- Rising circles count -->
+        <attr name="bpi_risingCount" format="integer" />
+        <!-- Default style -->
+        <attr name="bpi_indicatorStyle" format="reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="InstaDotView">
+        <attr name="dot_activeColor" format="color" />
+        <attr name="dot_inactiveColor" format="color" />
+        <attr name="dot_activeSize" format="dimension" />
+        <attr name="dot_inactiveSize" format="dimension" />
+        <attr name="dot_mediumSize" format="dimension" />
+        <attr name="dot_smallSize" format="dimension" />
+        <attr name="dot_margin" format="dimension" />
+        <attr name="dots_visible" format="integer" />
+    </declare-styleable>
+
+
+</resources>

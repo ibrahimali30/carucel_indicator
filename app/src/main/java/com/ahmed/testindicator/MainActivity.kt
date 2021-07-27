@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             page++
             if (page > instaDotView.getNoOfPages() - 1) page = instaDotView.getNoOfPages() - 1
             counter.text = page.toString() + ""
-            instaDotView.onPageChange()
+            instaDotView.onPageChange(page)
         }
         decrease.setOnClickListener {
             page--

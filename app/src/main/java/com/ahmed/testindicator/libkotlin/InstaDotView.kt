@@ -16,21 +16,21 @@ import java.util.*
 
 
 class InstaDotView : View {
-    private var activeDotSize = 0
-    private var inactiveDotSize = 0
-    private var mediumDotSize = 0
-    private var smallDotSize = 0
-    private var dotMargin = 0
-    private val activePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val inactivePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    var activeDotSize = 0
+    var inactiveDotSize = 0
+    var mediumDotSize = 0
+    var smallDotSize = 0
+    var dotMargin = 0
+    val activePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    val inactivePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     var startPosX = 0
-    private var posY = 0
-    private var previousPage = 0
-    private var currentPage = 0
-    private var translationAnim: ValueAnimator? = null
-    private var dotsList: MutableList<Dot> = ArrayList()
+    var posY = 0
+    var previousPage = 0
+    var currentPage = 0
+    var translationAnim: ValueAnimator? = null
+    var dotsList: MutableList<Dot> = ArrayList()
     private var noOfPages = 0
-    private var visibleDotCounts = DEFAULT_VISIBLE_DOTS_COUNT
+    private var visibleDotCounts = 5
 
     constructor(context: Context) : super(context) {
         setup(context, null)
@@ -58,54 +58,9 @@ class InstaDotView : View {
         setup(context, attrs)
     }
 
-    private fun setup(context: Context, attributeSet: AttributeSet?) {
-        val resources = resources
-        if (attributeSet != null) {
-            val ta = context.obtainStyledAttributes(attributeSet, R.styleable.InstaDotView)
-            activePaint.style = Paint.Style.FILL
-            activePaint.color = ta.getColor(
-                R.styleable.InstaDotView_dot_activeColor,
-                resources.getColor(R.color.active)
-            )
-            inactivePaint.style = Paint.Style.FILL
-            inactivePaint.color = ta.getColor(
-                R.styleable.InstaDotView_dot_inactiveColor,
-                resources.getColor(R.color.inactive)
-            )
-            activeDotSize = ta.getDimensionPixelSize(
-                R.styleable.InstaDotView_dot_activeSize,
-                resources.getDimensionPixelSize(R.dimen.dot_active_size)
-            )
-            inactiveDotSize = ta.getDimensionPixelSize(
-                R.styleable.InstaDotView_dot_inactiveSize,
-                resources.getDimensionPixelSize(R.dimen.dot_inactive_size)
-            )
-            mediumDotSize = ta.getDimensionPixelSize(
-                R.styleable.InstaDotView_dot_mediumSize,
-                resources.getDimensionPixelSize(R.dimen.dot_medium_size)
-            )
-            smallDotSize = ta.getDimensionPixelSize(
-                R.styleable.InstaDotView_dot_smallSize,
-                resources.getDimensionPixelSize(R.dimen.dot_small_size)
-            )
-            dotMargin = ta.getDimensionPixelSize(
-                R.styleable.InstaDotView_dot_margin,
-                resources.getDimensionPixelSize(R.dimen.dot_margin)
-            )
-            setVisibleDotCounts(
-                ta.getInteger(
-                    R.styleable.InstaDotView_dots_visible,
-                    DEFAULT_VISIBLE_DOTS_COUNT
-                )
-            )
-            ta.recycle()
-        }
-        posY = activeDotSize / 2
-        initCircles()
-    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val desiredWidth = (activeDotSize + dotMargin) * (dotsList.size + 1)
+        val desiredWidth = (activeDotSize + dotMargin) * (size + 1)
         val desiredHeight = activeDotSize
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -131,7 +86,7 @@ class InstaDotView : View {
         drawCircles(canvas)
     }
 
-    private fun initCircles() {
+    fun initCircles() {
         val viewCount = Math.min(getNoOfPages(), getVisibleDotCounts())
         if (viewCount < 1) return
         startPosX = if (noOfPages > visibleDotCounts) smallDotStartX else 0
@@ -150,7 +105,7 @@ class InstaDotView : View {
         invalidate()
     }
 
-    private fun drawCircles(canvas: Canvas) {
+    fun drawCircles(canvas: Canvas) {
         var posX = startPosX
         for (i in dotsList.indices) {
             val d = dotsList[i]
@@ -183,11 +138,7 @@ class InstaDotView : View {
         }
     }
 
-    private fun getTranslationAnimation(
-        from: Int,
-        to: Int,
-        listener: AnimationListener?
-    ): ValueAnimator? {
+    fun getTranslationAnimation(from: Int, to: Int, listener: AnimationListener?): ValueAnimator? {
         if (translationAnim != null) translationAnim!!.cancel()
         translationAnim = ValueAnimator.ofInt(from, to)
         translationAnim?.setDuration(120)
@@ -224,7 +175,7 @@ class InstaDotView : View {
         recreate()
     }
 
-    private fun recreate() {
+    fun recreate() {
         initCircles()
         requestLayout()
         invalidate()
@@ -236,20 +187,20 @@ class InstaDotView : View {
 
     val activeDotStartX: Int
         get() = activeDotSize + dotMargin
-    private val inactiveDotStartX: Int
-        private get() = inactiveDotSize + dotMargin
-    private val mediumDotStartX: Int
-        private get() = mediumDotSize + dotMargin
-    private val smallDotStartX: Int
-        private get() = smallDotSize + dotMargin
-    private val activeDotRadius: Int
-        private get() = activeDotSize / 2
-    private val inactiveDotRadius: Int
-        private get() = inactiveDotSize / 2
-    private val mediumDotRadius: Int
-        private get() = mediumDotSize / 2
-    private val smallDotRadius: Int
-        private get() = smallDotSize / 2
+    val inactiveDotStartX: Int
+        get() = inactiveDotSize + dotMargin
+    val mediumDotStartX: Int
+        get() = mediumDotSize + dotMargin
+    val smallDotStartX: Int
+        get() = smallDotSize + dotMargin
+    val activeDotRadius: Int
+        get() = activeDotSize / 2
+    val inactiveDotRadius: Int
+        get() = inactiveDotSize / 2
+    val mediumDotRadius: Int
+        get() = mediumDotSize / 2
+    val smallDotRadius: Int
+        get() = smallDotSize / 2
 
     fun onPageChange(page: Int) {
         currentPage = page
@@ -268,7 +219,7 @@ class InstaDotView : View {
         }
     }
 
-    private fun updateDots() {
+    fun updateDots() {
 
         //If pages does not exceed DOT COUNT limit
         if (noOfPages <= visibleDotCounts) {
@@ -295,7 +246,7 @@ class InstaDotView : View {
         }
     }
 
-    private fun setupNormalDots() {
+    fun setupNormalDots() {
         try {
             dotsList[currentPage].setCurrentState(Dot.State.ACTIVE)
             dotsList[previousPage].setCurrentState(Dot.State.INACTIVE)
@@ -304,18 +255,21 @@ class InstaDotView : View {
             e.message
         }
     }
+    
+    var size = 0
+    get() = dotsList.size
 
-    private fun setupFlexibleCirclesRight(position: Int) {
+    fun setupFlexibleCirclesRight(position: Int) {
         //If position exceed last two dots
         if (position >= getVisibleDotCounts() - 3) {
             if (currentPage == getNoOfPages() - 1) {
                 //Last item from right
-                dotsList[dotsList.size - 1].setCurrentState(Dot.State.ACTIVE)
+                dotsList[size - 1].setCurrentState(Dot.State.ACTIVE)
                 invalidate()
             } else if (currentPage == getNoOfPages() - 2) {
                 //Second item from right
-                dotsList[dotsList.size - 1].setCurrentState(Dot.State.MEDIUM)
-                dotsList[dotsList.size - 2].setCurrentState(Dot.State.ACTIVE)
+                dotsList[size - 1].setCurrentState(Dot.State.MEDIUM)
+                dotsList[size - 2].setCurrentState(Dot.State.ACTIVE)
                 invalidate()
             } else {
                 removeAddRight(position)
@@ -326,7 +280,7 @@ class InstaDotView : View {
         }
     }
 
-    private fun removeAddRight(position: Int) {
+    fun removeAddRight(position: Int) {
         dotsList.removeAt(0)
         startPosX = startPosX + smallDotStartX
         getTranslationAnimation(startPosX, smallDotStartX, object : AnimationListener {
@@ -341,7 +295,7 @@ class InstaDotView : View {
         })!!.start()
     }
 
-    private fun setupFlexibleCirclesLeft(position: Int) {
+    fun setupFlexibleCirclesLeft(position: Int) {
         //If position exceed first two dots
         if (position <= 2) {
             if (currentPage == 0) {
@@ -362,13 +316,13 @@ class InstaDotView : View {
         }
     }
 
-    private fun removeAddLeft(position: Int) {
-        dotsList.removeAt(dotsList.size - 1)
+    fun removeAddLeft(position: Int) {
+        dotsList.removeAt(size - 1)
         startPosX = 0
         getTranslationAnimation(startPosX, smallDotStartX, object : AnimationListener {
             override fun onAnimationEnd() {
-                dotsList[dotsList.size - 1].setCurrentState(Dot.State.SMALL)
-                dotsList[dotsList.size - 2].setCurrentState(Dot.State.MEDIUM)
+                dotsList[size - 1].setCurrentState(Dot.State.SMALL)
+                dotsList[size - 2].setCurrentState(Dot.State.MEDIUM)
                 val newDot = Dot()
                 newDot.setCurrentState(Dot.State.ACTIVE)
                 dotsList.add(position, newDot)
@@ -378,7 +332,7 @@ class InstaDotView : View {
     }
 
     companion object {
-        private const val MIN_VISIBLE_DOT_COUNT = 1
-        private const val DEFAULT_VISIBLE_DOTS_COUNT = MIN_VISIBLE_DOT_COUNT
+        const val MIN_VISIBLE_DOT_COUNT = 1
+        const val DEFAULT_VISIBLE_DOTS_COUNT = MIN_VISIBLE_DOT_COUNT
     }
 }
